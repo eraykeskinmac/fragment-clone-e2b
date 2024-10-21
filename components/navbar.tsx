@@ -44,7 +44,7 @@ export function Navbar({
           <h1 className="whitespace-pre">Tiny Chat</h1>
         </Link>
       </div>
-      <div>
+      <div className="flex items-center gap-1 md:gap-4">
         <TooltipProvider>
           <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>

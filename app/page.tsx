@@ -34,7 +34,7 @@ export default function Home() {
         />
       )}
       <div className="grid w-full md:grid-cols-2">
-        <div>
+        <div className="flex flex-col w-full max-w-[800px] mx-auto px-4 overflow-auto col-span-2">
           <Navbar
             session={session}
             showLogin={() => setAuthDialog(true)}

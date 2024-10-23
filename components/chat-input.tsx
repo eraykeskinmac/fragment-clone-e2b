@@ -6,7 +6,7 @@ import {
   TooltipTrigger,
 } from "./ui/tooltip";
 import { Button } from "./ui/button";
-import { Paperclip } from "lucide-react";
+import { ArrowUp, Paperclip, Square } from "lucide-react";
 
 export function ChatInput({
   error,
@@ -39,7 +39,7 @@ export function ChatInput({
         <div>An unexpected error has occurred. Please try again later</div>
       )}
       <div className="shadow-md rounded-2xl border">
-        <div className="flex items-center">{children}</div>
+        <div className="flex items-center px-3 py-2 gap-1">{children}</div>
         <TextAreaAutoSize
           autoFocus={true}
           minRows={1}
@@ -50,7 +50,7 @@ export function ChatInput({
           value={input}
           onChange={handleInputChange}
         />
-        <div>
+        <div className="flex p-3 gap-2 items-center">
           <input
             type="file"
             id="multimodal"
@@ -59,7 +59,7 @@ export function ChatInput({
             className="hidden"
             onChange={() => {}}
           />
-          <div>
+          <div className="flex items-center flex-1 gap-2">
             <TooltipProvider>
               <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
@@ -80,9 +80,51 @@ export function ChatInput({
                 <TooltipContent>Add attachemnts</TooltipContent>
               </Tooltip>
             </TooltipProvider>
+            {}
+          </div>
+          <div>
+            {!isLoading ? (
+              <TooltipProvider>
+                <Tooltip delayDuration={0}>
+                  <TooltipTrigger asChild>
+                    <Button
+                      type="submit"
+                      variant={"default"}
+                      size={"icon"}
+                      className="rounded-xl h-10 w-10"
+                    >
+                      <ArrowUp className="h-5 w-5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Send message</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            ) : (
+              <TooltipProvider>
+                <Tooltip delayDuration={0}>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant={"secondary"}
+                      size={"icon"}
+                      className="rounded-xl h-10 w-10"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        stop();
+                      }}
+                    >
+                      <Square className="h-5 w-5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Stop generation</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
           </div>
         </div>
       </div>
+      <p className="text-xs text-muted-foreground mt-2 text-center">
+        Tiny Chat is code blocker generation and live UI Preview
+      </p>
     </form>
   );
 }

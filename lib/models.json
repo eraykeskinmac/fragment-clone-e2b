@@ -1,0 +1,18 @@
+{
+  "models": [
+    {
+      "id": "o1-preview",
+      "provider": "OpenAI",
+      "providerId": "openai",
+      "name": "o1 (preview)",
+      "multiModal": true
+    },
+    {
+      "id": "gpt-4-turbo",
+      "provider": "OpenAI",
+      "providerId": "openai",
+      "name": "GPT-4 Turbo",
+      "multiModal": true
+    }
+  ]
+}

@@ -2,11 +2,13 @@
 import { AuthDialog } from "@/components/auth-dialog";
 import { Chat } from "@/components/chat";
 import { ChatInput } from "@/components/chat-input";
+import { ChatPicker } from "@/components/chat-picker";
 import { Navbar } from "@/components/navbar";
 import { AuthViewType, useAuth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
 import { useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
+import modelsList from "@/lib/models.json";
 
 export default function Home() {
   const [isAuthDialogOpen, setAuthDialog] = useState(false);
@@ -53,7 +55,7 @@ export default function Home() {
             isMultiModal={false}
             stop={() => {}}
           >
-            <h1>Children Components</h1>
+            <ChatPicker models={modelsList.models} />
           </ChatInput>
         </div>
       </div>

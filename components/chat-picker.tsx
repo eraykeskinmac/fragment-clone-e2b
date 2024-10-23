@@ -8,11 +8,12 @@ import {
   SelectTrigger,
 } from "./ui/select";
 import { SelectValue } from "@radix-ui/react-select";
+import Image from "next/image";
 
 export function ChatPicker({ models }: { models: LLMModel[] }) {
   return (
     <div className="flex items-center space-x-2">
-       <div>
+      <div>
         <Select name="languageModel" defaultValue={""} onValueChange={() => {}}>
           <SelectTrigger className="whitespace-nowrap border-none shadow-none px-0 py-0 h-6 text-xs focus:ring-0">
             <SelectValue placeholder="Language Model" />
@@ -25,7 +26,14 @@ export function ChatPicker({ models }: { models: LLMModel[] }) {
                 <SelectLabel>{provider}</SelectLabel>
                 {models?.map((model) => (
                   <SelectItem key={model.id} value={model.id}>
-                    <div>
+                    <div className="flex items-center space-x-2">
+                      <Image
+                        src={`/thirdparty/logos/${model.providerId}.svg`}
+                        width={14}
+                        height={14}
+                        alt={model.provider}
+                        className="flex"
+                      />
                       <span>{model.name}</span>
                     </div>
                   </SelectItem>

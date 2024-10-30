@@ -9,6 +9,9 @@ import { supabase } from "@/lib/supabase";
 import { useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import modelsList from "@/lib/models.json";
+import templates from "@/lib/templates";
+import { ChatSettings } from "@/components/chat-settings";
+import { LLMModelConfig } from "@/lib/models";
 
 export default function Home() {
   const [isAuthDialogOpen, setAuthDialog] = useState(false);
@@ -23,6 +26,10 @@ export default function Home() {
 
   function logout() {
     supabase ? supabase.auth.signOut() : console.warn("supabase not loaded");
+  }
+
+  function handleLanguageModelChange(e: LLMModelConfig) {
+    setLanguageModel({ ...languageModel, ...e });
   }
 
   return (
@@ -55,7 +62,18 @@ export default function Home() {
             isMultiModal={false}
             stop={() => {}}
           >
-            <ChatPicker models={modelsList.models} />
+            <ChatPicker
+              models={modelsList.models}
+              templates={templates as any}
+              selectedTemplate={selectedTemplate}
+              languageModel={languageModel}
+            />
+            <ChatSettings
+              languageModel={languageModel}
+              onLanguageModelChange={handleLanguageModelChange}
+              apiKeyConfigurable={true}
+              baseURLConfigurable={true}
+            />
           </ChatInput>
         </div>
       </div>

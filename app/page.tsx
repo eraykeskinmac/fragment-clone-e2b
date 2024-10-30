@@ -12,6 +12,7 @@ import modelsList from "@/lib/models.json";
 import templates from "@/lib/templates";
 import { ChatSettings } from "@/components/chat-settings";
 import { LLMModelConfig } from "@/lib/models";
+import { Message } from "@/lib/messsages";
 
 export default function Home() {
   const [isAuthDialogOpen, setAuthDialog] = useState(false);
@@ -23,6 +24,8 @@ export default function Home() {
   const [languageModel, setLanguageModel] = useLocalStorage("languageModel", {
     model: "gpt-4o-mini",
   });
+
+  const [messages, setMessages] = useState<Message>([])
 
   function logout() {
     supabase ? supabase.auth.signOut() : console.warn("supabase not loaded");

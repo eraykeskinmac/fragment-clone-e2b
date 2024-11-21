@@ -1,8 +1,15 @@
 import { Duration } from "@/lib/duration";
-import { LLMModel, LLMModelConfig } from "@/lib/models";
+import {
+  getDefaultMode,
+  getModelClient,
+  LLMModel,
+  LLMModelConfig,
+} from "@/lib/models";
+import { toPrompt } from "@/lib/prompt";
 import rateLimit from "@/lib/ratelimit";
 import { Templates } from "@/lib/templates";
-import { CoreMessage } from "ai";
+import { CoreMessage, LanguageModel, streamObject } from "ai";
+import { capsuleSchema as schema } from "@/lib/schema";
 
 const ratelimitMaxRequests = process.env.RATE_LIMIT_MAX_REQUESTS
   ? parseInt(process.env.RATE_LIMIT_MAX_REQUESTS)
@@ -46,4 +53,17 @@ export async function POST(req: Request) {
     apiKey: modelApiKey,
     ...modelParams
   } = config;
+
+  const modelClient = getModelClient(model, config);
+
+  const stream = await streamObject({
+    model: modelClient as LanguageModel,
+    schema,
+    system: toPrompt(template),
+    messages,
+    mode: getDefaultMode(model),
+    ...modelParams,
+  });
+
+  return stream.toTextStreamResponse();
 }

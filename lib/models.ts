@@ -1,8 +1,8 @@
-import { createAnthropic } from "@ai-sdk/anthropic";
+import { createOllama } from "ollama-ai-provider";
+import { createMistral } from "@ai-sdk/mistral";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { createOpenAI } from "@ai-sdk/openai";
-import { createMistral, mistral } from "@ai-sdk/mistral";
-import { createOllama } from "ollama-ai-provider";
+import { createAnthropic } from "@ai-sdk/anthropic";
 
 export type LLMModel = {
   id: string;

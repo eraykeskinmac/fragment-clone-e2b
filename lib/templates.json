@@ -1,5 +1,5 @@
 {
-  "nextjs-developer": {
+  "ty-nextjs-developer": {
     "name": "Next.js developer",
     "lib": [
       "nextjs@14.2.5",

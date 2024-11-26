@@ -67,6 +67,18 @@ export default function Home() {
             session={session}
             showLogin={() => setAuthDialog(true)}
             signOut={logout}
+            onSocialClick={(target: "github" | "x" | "discord") => {
+              console.log(`Clicked ${target}`);
+            }}
+            onClear={() => {}}
+            canClear={false} // Set this based on your clear functionality state
+            onUndo={() => {
+              // Handle undo functionality
+            }}
+            canUndo={() => {
+              // Return whether undo is available
+              return false;
+            }}
           />
           <Chat />
           <ChatInput

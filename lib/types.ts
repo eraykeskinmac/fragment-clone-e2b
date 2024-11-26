@@ -14,7 +14,7 @@ export type ExecutionResultInterpreter = ExecutionResultBase & {
 };
 
 export type ExecutionResultWeb = ExecutionResultBase & {
-  template: Exclude<TemplateId, "cc-nextjs-developer">;
+  template: Exclude<TemplateId, "ty-nextjs-developer">;
   url: string;
 };
 

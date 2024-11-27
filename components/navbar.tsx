@@ -33,7 +33,7 @@ export function Navbar({
   canClear: boolean;
   onSocialClick: (target: "github" | "x" | "discord") => void;
   onUndo: () => void;
-  canUndo: () => boolean;
+  canUndo: boolean;
 }) {
   const { theme, setTheme } = useTheme();
   return (

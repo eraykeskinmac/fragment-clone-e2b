@@ -6,12 +6,8 @@ export type Templates = keyof typeof templates;
 export type TemplateId = keyof typeof templates;
 export type TemplateConfig = (typeof templates)[TemplateId];
 
-export function templatesToPrompt(filterTemplates?: Templates[]) {
-  const templatesEntries = filterTemplates
-    ? Object.entries(templates).filter(([id]) => filterTemplates.includes(id as Templates))
-    : Object.entries(templates);
-
-  return templatesEntries
+export function templatesToPrompt(templates: Templates) {
+  return `${Object.entries(templates)
     .map(
       ([id, t], index) =>
         `${index + 1}. ${id}: "${t.instructions}". File: ${
@@ -20,5 +16,5 @@ export function templatesToPrompt(filterTemplates?: Templates[]) {
           t.port || "none"
         }`
     )
-    .join("\n");
+    .join("\n")}`;
 }

@@ -9,7 +9,7 @@ import { supabase } from "@/lib/supabase";
 import { use, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import modelsList from "@/lib/models.json";
-import templates from "@/lib/templates";
+import templates, { TemplateId } from "@/lib/templates";
 import { ChatSettings } from "@/components/chat-settings";
 import { LLMModelConfig } from "@/lib/models";
 import { Message, toAISDKMessages } from "@/lib/messsages";
@@ -25,7 +25,9 @@ export default function Home() {
   const { session } = useAuth(setAuthDialog, setAuthView);
   const [chatInput, setChatInput] = useLocalStorage("chat", "");
   const [files, setFiles] = useState<File[]>([]);
-  const [selectedTemplate, setSelectedTemplate] = useState<"auto">("auto");
+  const [selectedTemplate, setSelectedTemplate] = useState<"auto" | TemplateId>(
+    "auto"
+  );
   const [languageModel, setLanguageModel] = useLocalStorage("languageModel", {
     model: "gpt-4o-mini",
   });
@@ -47,7 +49,7 @@ export default function Home() {
   }
 
   function setMessage(message: Partial<Message>, index?: number) {
-    setMessage((previousMessages) => {
+    setMessages((previousMessages) => {
       const updatedMessages = [...previousMessages];
       updatedMessages[index ?? previousMessages.length - 1] = {
         ...previousMessages[index ?? previousMessages.length - 1],
@@ -181,6 +183,8 @@ export default function Home() {
               templates={templates as any}
               selectedTemplate={selectedTemplate}
               languageModel={languageModel}
+              onSelectedTemplateChange={setSelectedTemplate}
+              onLanguageModelChange={handleLanguageModelChange}
             />
             <ChatSettings
               languageModel={languageModel}

@@ -12,7 +12,7 @@ import modelsList from "@/lib/models.json";
 import templates from "@/lib/templates";
 import { ChatSettings } from "@/components/chat-settings";
 import { LLMModelConfig } from "@/lib/models";
-import { Message } from "@/lib/messsages";
+import { Message, toAISDKMessages } from "@/lib/messsages";
 import { DeepPartial } from "ai";
 import { CapsuleSchema, capsuleSchema as schema } from "@/lib/schema";
 import { experimental_useObject as useObject } from "ai/react";
@@ -88,6 +88,16 @@ export default function Home() {
     },
   });
 
+  function retry() {
+    submit({
+      userID: session?.user.id,
+      messages: toAISDKMessages(messages),
+      template: currentTemplate,
+      model: currentModal,
+      config: languageModel,
+    });
+  }
+
   function logout() {
     supabase ? supabase.auth.signOut() : console.warn("supabase not loaded");
   }
@@ -127,6 +137,10 @@ export default function Home() {
     posthog.capture(`${target}_click`);
   }
 
+  function handleSaveInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    setChatInput(e.target.value);
+  }
+
   return (
     <main className="flex min-h-screen max-h-screen">
       {supabase && (
@@ -151,14 +165,14 @@ export default function Home() {
           />
           <Chat />
           <ChatInput
-            isLoading={false}
+            isLoading={isLoading}
             input={chatInput}
-            handleInputChange={() => {}}
+            handleInputChange={handleSaveInputChange}
             handleSubmit={() => {}}
             handleFileChange={() => {}}
             files={files}
-            error={undefined}
-            retry={() => {}}
+            error={error}
+            retry={retry}
             isMultiModal={false}
             stop={() => {}}
           >

@@ -23,3 +23,18 @@ export type Message = {
   object?: DeepPartial<CapsuleSchema>;
   result?: ExecutionResult;
 };
+
+export function toAISDKMessages(messages: Message[]) {
+  return messages.map((message) => {
+    role: message.role;
+    content: message.content.map((content) => {
+      if (content.type === "code") {
+        return {
+          type: "text",
+          text: content.text,
+        };
+      }
+      return content;
+    });
+  });
+}

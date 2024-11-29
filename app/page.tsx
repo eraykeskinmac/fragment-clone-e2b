@@ -12,7 +12,7 @@ import modelsList from "@/lib/models.json";
 import templates, { TemplateId } from "@/lib/templates";
 import { ChatSettings } from "@/components/chat-settings";
 import { LLMModelConfig } from "@/lib/models";
-import { Message, toAISDKMessages } from "@/lib/messsages";
+import { Message, toAISDKMessages, toMessageImage } from "@/lib/messsages";
 import { DeepPartial } from "ai";
 import { CapsuleSchema, capsuleSchema as schema } from "@/lib/schema";
 import { experimental_useObject as useObject } from "ai/react";
@@ -141,6 +141,27 @@ export default function Home() {
 
   function handleSaveInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     setChatInput(e.target.value);
+  }
+
+  async function handleSubmitAuth(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    if (session) {
+      return setAuthDialog(false);
+    }
+
+    if (isLoading) {
+      stop();
+    }
+
+    const content: Message["content"] = [{ type: "text", text: chatInput }];
+    const images = await toMessageImage(files);
+
+    if (images.length > 0) {
+      images.forEach((image) => {
+        content.push({ type: "image", image });
+      });
+    }
   }
 
   return (

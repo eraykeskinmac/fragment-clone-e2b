@@ -218,7 +218,7 @@ export default function Home() {
             isLoading={isLoading}
             input={chatInput}
             handleInputChange={handleSaveInputChange}
-            handleSubmit={() => {}}
+            handleSubmit={handleSubmitAuth}
             handleFileChange={() => {}}
             files={files}
             error={error}

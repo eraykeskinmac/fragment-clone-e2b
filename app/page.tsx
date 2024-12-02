@@ -143,6 +143,11 @@ export default function Home() {
     setChatInput(e.target.value);
   }
 
+  function addMessage(message: Message) {
+    setMessages((previousMessages) => [...previousMessages, message]);
+    return [...messages, message];
+  }
+
   async function handleSubmitAuth(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -162,6 +167,28 @@ export default function Home() {
         content.push({ type: "image", image });
       });
     }
+
+    const updatedMessages = addMessage({
+      role: "user",
+      content,
+    });
+
+    submit({
+      userID: session?.user?.id,
+      messages: toAISDKMessages(updatedMessages),
+      templates: currentTemplate,
+      model: currentModal,
+      config: languageModel,
+    });
+
+    setChatInput("");
+    setFiles([]);
+    setCurrentTab("code");
+
+    posthog.capture("chat_submit", {
+      template: selectedTemplate,
+      model: languageModel.model,
+    });
   }
 
   return (

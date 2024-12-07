@@ -104,10 +104,6 @@ export default function Home() {
     supabase ? supabase.auth.signOut() : console.warn("supabase not loaded");
   }
 
-  function handleLanguageModelChange(e: LLMModelConfig) {
-    setLanguageModel({ ...languageModel, ...e });
-  }
-
   const currentModal = modelsList.models.find(
     (model) => model.id === languageModel.model
   );
@@ -191,6 +187,14 @@ export default function Home() {
     });
   }
 
+  function handleFileChange(file: File[]) {
+    setFiles(file);
+  }
+
+  function handleLanguageModelChange(e: LLMModelConfig) {
+    setLanguageModel({ ...languageModel, ...e });
+  }
+
   return (
     <main className="flex min-h-screen max-h-screen">
       {supabase && (
@@ -213,18 +217,18 @@ export default function Home() {
             onUndo={handleUndo}
             canUndo={messages.length > 1 && !isLoading}
           />
-          <Chat />
+          <Chat messages={messages} isLoading={isLoading} setCurrentPreview={setCurrentPreview} />
           <ChatInput
             isLoading={isLoading}
             input={chatInput}
             handleInputChange={handleSaveInputChange}
             handleSubmit={handleSubmitAuth}
-            handleFileChange={() => {}}
+            handleFileChange={handleFileChange}
             files={files}
             error={error}
             retry={retry}
             isMultiModal={false}
-            stop={() => {}}
+            stop={stop}
           >
             <ChatPicker
               models={modelsList.models}
